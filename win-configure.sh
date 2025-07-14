@@ -15,4 +15,4 @@ ASM="zig cc" \
     -DCMAKE_CXX_COMPILER_TARGET="x86_64-windows-gnu" \
     -DCMAKE_AR="$PWD/zig-ar" \
     -DCMAKE_RANLIB="$PWD/zig-ranlib" \
-    -B build
+    -B build/windows

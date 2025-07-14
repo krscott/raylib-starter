@@ -5,7 +5,7 @@ cd "$(dirname "$(readlink -f -- "$0")")"
 ./emsdk/emsdk activate latest
 . ./emsdk/emsdk_env.sh
 
-cd build
+cd build/web
 emmake make
 
 # NOTE: To fix missing libatomic.so.1, install libatomic1
