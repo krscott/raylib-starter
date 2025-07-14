@@ -4,7 +4,9 @@ cd "$(dirname "$(readlink -f -- "$0")")"
 
 nix-shell -p \
     zig \
-    cmake
+    cmake \
+    python3 \
+    binaryen
 
 # libGL \
 # xorg.libX11 \
