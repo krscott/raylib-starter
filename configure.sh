@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+set -eu
+cd "$(dirname "$(readlink -f -- "$0")")"
 
 # https://jcbhmr.com/2024/07/19/zig-cc-cmake/
 
