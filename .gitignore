@@ -1,4 +1,10 @@
+# clang
 .cache
+
+# nix
+result
+
+# project
 build
 emsdk
-.compile-db
+

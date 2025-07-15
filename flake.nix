@@ -1,0 +1,45 @@
+{
+  inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+
+    raylib-src = {
+      url = "github:raysan5/raylib";
+      flake = false;
+    };
+  };
+
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    raylib-src,
+  }: let
+    supportedSystems = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
+  in
+    flake-utils.lib.eachSystem supportedSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in {
+        packages = {
+          native = pkgs.callPackage ./pkgs/native.nix {inherit raylib-src;};
+          default = self.packages.${system}.native;
+        };
+
+        devShells = {
+          default = pkgs.mkShell {
+            inputsFrom = [self.packages.${system}.native];
+            nativeBuildInputs = [
+              # add dev pkgs
+            ];
+          };
+        };
+
+        formatter = pkgs.alejandra;
+      }
+    );
+}
