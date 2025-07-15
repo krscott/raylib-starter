@@ -24,10 +24,13 @@
     flake-utils.lib.eachSystem supportedSystems (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
+
+        pkgArgs = {inherit raylib-src;};
       in {
         packages = {
-          native = pkgs.callPackage ./pkgs/native.nix {inherit raylib-src;};
           default = self.packages.${system}.native;
+          native = pkgs.callPackage ./pkgs/native.nix pkgArgs;
+          windows = pkgs.callPackage ./pkgs/windows.nix pkgArgs;
         };
 
         devShells = {
