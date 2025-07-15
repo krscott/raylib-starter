@@ -28,14 +28,14 @@
         pkgArgs = {inherit raylib-src;};
       in {
         packages = {
-          default = self.packages.${system}.native;
-          native = pkgs.callPackage ./pkgs/native.nix pkgArgs;
+          default = self.packages.${system}.desktop;
+          desktop = pkgs.callPackage ./pkgs/desktop.nix pkgArgs;
           windows = pkgs.callPackage ./pkgs/windows.nix pkgArgs;
         };
 
         devShells = {
           default = pkgs.mkShell {
-            inputsFrom = [self.packages.${system}.native];
+            inputsFrom = [self.packages.${system}.desktop];
             nativeBuildInputs = [
               # add dev pkgs
             ];
