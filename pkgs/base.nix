@@ -1,7 +1,7 @@
 {
   mainProgram ? "game",
   platform,
-  nativeBuildInputs,
+  nativeBuildInputs ? [],
   configurePhase,
   buildPhase,
   raylib-src,

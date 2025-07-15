@@ -7,12 +7,9 @@ callPackage ./base.nix {
   inherit (pkgsCross.mingwW64) stdenv;
 
   platform = "windows";
-  exeName = "game.exe";
+  mainProgram = "game.exe";
 
   inherit raylib-src;
-
-  nativeBuildInputs = [
-  ];
 
   configurePhase = ''
     cmake -B build/windows \
