@@ -1,16 +1,16 @@
 {
-  suffix,
+  mainProgram ? "game",
+  platform,
   nativeBuildInputs,
   configurePhase,
   buildPhase,
-  installPhase,
   raylib-src,
   stdenv,
   lib,
   cmake,
 }:
 stdenv.mkDerivation {
-  name = "raylib-starter-${suffix}";
+  name = "raylib-starter-${platform}";
   src = lib.cleanSource ./..;
 
   nativeBuildInputs =
@@ -32,5 +32,14 @@ stdenv.mkDerivation {
     "patchShScripts"
   ];
 
-  inherit configurePhase buildPhase installPhase;
+  inherit configurePhase buildPhase;
+
+  installPhase = ''
+    mkdir -p $out/bin
+    mv build/${platform}/src/${mainProgram} $out/bin/
+  '';
+
+  meta = {
+    inherit mainProgram;
+  };
 }

@@ -5,7 +5,7 @@
   xorg,
 }:
 callPackage ./base.nix {
-  suffix = "linux";
+  platform = "desktop";
 
   inherit raylib-src;
 
@@ -25,10 +25,5 @@ callPackage ./base.nix {
 
   buildPhase = ''
     ./desktop-build.sh
-  '';
-
-  installPhase = ''
-    mkdir -p $out/bin
-    mv build/desktop/src/game $out/bin
   '';
 }

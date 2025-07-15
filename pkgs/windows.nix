@@ -6,7 +6,8 @@
 callPackage ./base.nix {
   inherit (pkgsCross.mingwW64) stdenv;
 
-  suffix = "windows";
+  platform = "windows";
+  exeName = "game.exe";
 
   inherit raylib-src;
 
@@ -24,10 +25,5 @@ callPackage ./base.nix {
 
   buildPhase = ''
     cmake --build build/windows
-  '';
-
-  installPhase = ''
-    mkdir -p $out/bin
-    mv build/windows/src/game.* $out/bin
   '';
 }
