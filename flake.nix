@@ -31,9 +31,11 @@
         pkgArgs = {
           inherit appName raylib-src;
         };
+
+        inherit (self.packages.${system}) desktop web webserver;
       in {
         packages = {
-          default = self.packages.${system}.desktop;
+          default = desktop;
           desktop = pkgs.callPackage ./pkgs/desktop.nix pkgArgs;
           windows = pkgs.callPackage ./pkgs/windows.nix pkgArgs;
           web = pkgs.callPackage ./pkgs/web.nix pkgArgs;
@@ -44,12 +46,12 @@
         };
 
         apps = {
-          web = flake-utils.lib.mkApp {drv = self.packages.${system}.webserver;};
+          web = flake-utils.lib.mkApp {drv = webserver;};
         };
 
         devShells = {
           default = pkgs.mkShell {
-            inputsFrom = [self.packages.${system}.desktop];
+            inputsFrom = [desktop web];
             nativeBuildInputs = [
               # add dev pkgs
             ];
