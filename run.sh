@@ -16,7 +16,7 @@ desktop)
         ./raylib-starter
     )
     ;;
-win)
+windows | win)
     echo "Cannot run windows build from linux"
     exit 1
     ;;
