@@ -20,12 +20,4 @@ callPackage ./base.nix {
     xorg.libXinerama
     xorg.libXrandr
   ];
-
-  configurePhase = ''
-    ./desktop-configure.sh
-  '';
-
-  buildPhase = ''
-    ./desktop-build.sh
-  '';
 }

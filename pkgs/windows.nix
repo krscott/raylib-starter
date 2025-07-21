@@ -20,8 +20,4 @@ callPackage ./base.nix {
       -DCMAKE_C_COMPILER_TARGET="x86_64-windows-gnu" \
       -DCMAKE_CXX_COMPILER_TARGET="x86_64-windows-gnu"
   '';
-
-  buildPhase = ''
-    cmake --build build/windows
-  '';
 }

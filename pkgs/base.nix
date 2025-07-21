@@ -3,61 +3,75 @@
   mainProgram ? null,
   platform,
   nativeBuildInputs ? [],
-  configurePhase,
-  buildPhase,
+  configurePhase ? null,
+  buildPhase ? null,
   installPhase ? null,
   raylib-src,
   stdenv,
   lib,
   cmake,
-}:
-stdenv.mkDerivation {
-  name = "${appName}-${platform}";
-  src = lib.cleanSource ./..;
+}: let
+  withDefault = default: val:
+    if val != null
+    then val
+    else default;
+in
+  stdenv.mkDerivation {
+    name = "${appName}-${platform}";
+    src = lib.cleanSource ./..;
 
-  nativeBuildInputs =
-    [
-      cmake
-    ]
-    ++ nativeBuildInputs;
+    nativeBuildInputs =
+      [
+        cmake
+      ]
+      ++ nativeBuildInputs;
 
-  installRaylibPhase = ''
-    ln -s ${raylib-src} lib/raylib
-  '';
-
-  patchShScripts = ''
-    patchShebangs *.sh
-  '';
-
-  preConfigurePhases = [
-    "installRaylibPhase"
-    "patchShScripts"
-  ];
-
-  inherit configurePhase buildPhase;
-
-  installPhase =
-    if installPhase == null
-    then ''
-      mkdir -p $out/bin
-      mv build/${platform}/src/${mainProgram} $out/bin/
-    ''
-    else installPhase;
-
-  shellHook = ''
-    if [[ -f lib/raylib ]]; then
-      rm lib/raylib
-    fi
-    if ! [[ -e lib/raylib ]]; then
+    installRaylibPhase = ''
       ln -s ${raylib-src} lib/raylib
-    fi
+    '';
 
-    if ! [[ -f .clangd ]]; then
-      cp .clangd-example .clangd
-    fi
-  '';
+    patchShScripts = ''
+      patchShebangs *.sh
+    '';
 
-  meta = {
-    inherit mainProgram;
-  };
-}
+    preConfigurePhases = [
+      "installRaylibPhase"
+      "patchShScripts"
+    ];
+
+    configurePhase =
+      withDefault ''
+        ./configure.sh ${platform}
+      ''
+      configurePhase;
+
+    buildPhase =
+      withDefault ''
+        ./build.sh ${platform}
+      ''
+      buildPhase;
+
+    installPhase =
+      withDefault ''
+        mkdir -p $out/bin
+        mv build/${platform}/src/${mainProgram} $out/bin/
+      ''
+      installPhase;
+
+    shellHook = ''
+      if [[ -f lib/raylib ]]; then
+        rm lib/raylib
+      fi
+      if ! [[ -e lib/raylib ]]; then
+        ln -s ${raylib-src} lib/raylib
+      fi
+
+      if ! [[ -f .clangd ]]; then
+        cp .clangd-example .clangd
+      fi
+    '';
+
+    meta = {
+      inherit mainProgram;
+    };
+  }

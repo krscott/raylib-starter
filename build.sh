@@ -14,7 +14,7 @@ desktop)
     cmake --build build/desktop
     ;;
 
-win)
+windows | win)
     cmake --build build/windows
     ;;
 

@@ -13,14 +13,6 @@ callPackage ./base.nix rec {
     emscripten
   ];
 
-  configurePhase = ''
-    ./web-configure.sh
-  '';
-
-  buildPhase = ''
-    ./web-build.sh
-  '';
-
   installPhase = ''
     mkdir -p $out/share/${appName}-${platform}
     mv build/${platform}/src/${appName}* $out/share/${appName}-${platform}

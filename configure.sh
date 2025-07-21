@@ -14,7 +14,7 @@ desktop)
     cmake -B build/desktop
     ;;
 
-win)
+windows | win)
     # https://jcbhmr.com/2024/07/19/zig-cc-cmake/
     ASM="zig cc" \
         CC="zig cc" \
