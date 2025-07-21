@@ -40,7 +40,7 @@
           windows = pkgs.callPackage ./pkgs/windows.nix pkgArgs;
           web = pkgs.callPackage ./pkgs/web.nix pkgArgs;
           webserver = pkgs.writeShellScriptBin "webserver" ''
-            cd "${self.packages.${system}.web}/share/${appName}-web"
+            cd "${web}/share/${web.name}"
             ${pkgs.lib.getExe pkgs.python3} -m http.server
           '';
         };
@@ -52,8 +52,8 @@
         devShells = {
           default = pkgs.mkShell {
             inputsFrom = [desktop web];
-            nativeBuildInputs = [
-              # add dev pkgs
+            nativeBuildInputs = with pkgs; [
+              python3
             ];
           };
         };
