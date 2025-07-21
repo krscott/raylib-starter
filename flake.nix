@@ -25,12 +25,25 @@
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
 
-        pkgArgs = {inherit raylib-src;};
+        runWebserver = pkgs.writeShellScriptBin "webserver" ''
+          cd "${self.packages.${system}.web}/share"
+          ${pkgs.lib.getExe pkgs.python3} -m http.server
+        '';
+
+        pkgArgs = {
+          inherit raylib-src;
+          appName = "game";
+        };
       in {
         packages = {
           default = self.packages.${system}.desktop;
           desktop = pkgs.callPackage ./pkgs/desktop.nix pkgArgs;
           windows = pkgs.callPackage ./pkgs/windows.nix pkgArgs;
+          web = pkgs.callPackage ./pkgs/web.nix pkgArgs;
+        };
+
+        apps = {
+          web = flake-utils.lib.mkApp {drv = runWebserver;};
         };
 
         devShells = {

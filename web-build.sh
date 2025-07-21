@@ -2,8 +2,8 @@
 set -eu
 cd "$(dirname "$(readlink -f -- "$0")")"
 
-./emsdk/emsdk activate latest
-. ./emsdk/emsdk_env.sh
+# ./emsdk/emsdk activate latest
+# . ./emsdk/emsdk_env.sh
 
 cd build/web
 emmake make

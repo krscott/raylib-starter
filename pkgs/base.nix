@@ -1,9 +1,10 @@
 {
-  mainProgram ? "game",
+  mainProgram ? null,
   platform,
   nativeBuildInputs ? [],
   configurePhase,
   buildPhase,
+  installPhase ? null,
   raylib-src,
   stdenv,
   lib,
@@ -34,10 +35,13 @@ stdenv.mkDerivation {
 
   inherit configurePhase buildPhase;
 
-  installPhase = ''
-    mkdir -p $out/bin
-    mv build/${platform}/src/${mainProgram} $out/bin/
-  '';
+  installPhase =
+    if installPhase == null
+    then ''
+      mkdir -p $out/bin
+      mv build/${platform}/src/${mainProgram} $out/bin/
+    ''
+    else installPhase;
 
   meta = {
     inherit mainProgram;

@@ -1,4 +1,5 @@
 {
+  appName,
   raylib-src,
   callPackage,
   libGL,
@@ -6,6 +7,7 @@
 }:
 callPackage ./base.nix {
   platform = "desktop";
+  mainProgram = appName;
 
   inherit raylib-src;
 

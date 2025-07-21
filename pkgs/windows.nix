@@ -1,4 +1,5 @@
 {
+  appName,
   raylib-src,
   callPackage,
   pkgsCross,
@@ -7,7 +8,7 @@ callPackage ./base.nix {
   inherit (pkgsCross.mingwW64) stdenv;
 
   platform = "windows";
-  mainProgram = "game.exe";
+  mainProgram = "${appName}.exe";
 
   inherit raylib-src;
 
