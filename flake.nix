@@ -54,6 +54,7 @@
             inputsFrom = [desktop web];
             nativeBuildInputs = with pkgs; [
               python3
+              zig
             ];
           };
         };
