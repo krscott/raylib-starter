@@ -22,7 +22,7 @@
     ];
 
     # CMakeLists.txt project name
-    appName = "game";
+    appName = "raylib-starter";
   in
     flake-utils.lib.eachSystem supportedSystems (
       system: let
