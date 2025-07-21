@@ -44,6 +44,15 @@ stdenv.mkDerivation {
     ''
     else installPhase;
 
+  shellHook = ''
+    if [[ -f lib/raylib ]]; then
+      rm lib/raylib
+    fi
+    if ! [[ -e lib/raylib ]]; then
+      ln -s ${raylib-src} lib/raylib
+    fi
+  '';
+
   meta = {
     inherit mainProgram;
   };
