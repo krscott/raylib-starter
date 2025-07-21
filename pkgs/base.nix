@@ -51,6 +51,10 @@ stdenv.mkDerivation {
     if ! [[ -e lib/raylib ]]; then
       ln -s ${raylib-src} lib/raylib
     fi
+
+    if ! [[ -f .clangd ]]; then
+      cp .clangd-example .clangd
+    fi
   '';
 
   meta = {

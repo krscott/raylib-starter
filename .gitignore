@@ -7,4 +7,5 @@ result
 # project
 build
 emsdk
+.clangd
 
