@@ -8,24 +8,14 @@ A starter project for C Raylib with optional support for Nix.
 
 ## Usage
 
-To compile the example, use one of the following dependending on your build target...
+To compile and run, use one of the following dependending on your build platform.
 
-### Desktop
-
-Use the following to build for desktop:
-
-``` bash
-cmake -B build
-cmake --build build
+```bash
+./configure.sh <platform>
+./build.sh <platform>
+./run.sh <platform>
 ```
 
-### Web
+Where `platform` is `desktop` (linux), `windows`, or `web`.
+Compiling for the web requires the [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html).
 
-Compiling for the web requires the [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html):
-
-``` bash
-mkdir build
-cd build
-emcmake cmake .. -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXECUTABLE_SUFFIX=".html"
-emmake make
-```
