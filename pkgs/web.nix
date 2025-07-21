@@ -15,7 +15,7 @@ callPackage ./base.nix rec {
   ];
 
   installPhase = ''
-    mkdir -p $out/share/${appName}-${platform}
-    mv build/${platform}/src/${appName}* $out/share/${appName}-${platform}
+    mkdir -p $out/share/www
+    mv build/${platform}/src/${appName}* $out/share/www
   '';
 }

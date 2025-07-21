@@ -41,7 +41,7 @@
           windows = pkgs.callPackage ./pkgs/windows.nix pkgArgs;
           web = pkgs.callPackage ./pkgs/web.nix pkgArgs;
           webserver = pkgs.writeShellScriptBin "webserver" ''
-            cd "${web}/share/${web.name}"
+            cd "${web}/share/www"
             ${pkgs.lib.getExe pkgs.python3} -m http.server
           '';
         };
