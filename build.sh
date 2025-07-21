@@ -11,11 +11,17 @@ usage() {
 
 case "$platform" in
 desktop)
-    cmake --build build/desktop
+    (
+        set -x
+        cmake --build build/desktop
+    )
     ;;
 
 windows | win)
-    cmake --build build/windows
+    (
+        set -x
+        cmake --build build/windows
+    )
     ;;
 
 web)
@@ -28,6 +34,7 @@ web)
     # . ./emsdk/emsdk_env.sh
     (
         cd build/web
+        set -x
         emmake make
     )
     ;;

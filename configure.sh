@@ -46,33 +46,35 @@ while [[ $# -gt 0 ]]; do
     shift 1 # Move to the next argument
 done
 
+if [[ $use_zig == 1 ]]; then
+    # https://jcbhmr.com/2024/07/19/zig-cc-cmake/
+    export ASM="zig cc"
+    export CC="zig cc"
+    export CXX="zig c++"
+    cmake_opts=(-DCMAKE_AR="$PWD/zig-ar" -DCMAKE_RANLIB="$PWD/zig-ranlib")
+else
+    cmake_opts=()
+fi
+
 case "${platform:-desktop}" in
 desktop)
-    cmake -B build/desktop
+    (
+        set -x
+        cmake -B build/desktop "${cmake_opts[@]}"
+    )
     ;;
 
 windows | win)
-    if [[ $use_zig == 1 ]]; then
-        # https://jcbhmr.com/2024/07/19/zig-cc-cmake/
-        ASM="zig cc" \
-            CC="zig cc" \
-            CXX="zig c++" \
-            cmake -B build/windows \
-            -DCMAKE_SYSTEM_NAME="Windows" \
-            -DCMAKE_SYSTEM_PROCESSOR="x86_64" \
-            -DCMAKE_ASM_COMPILER_TARGET="x86_64-windows-gnu" \
-            -DCMAKE_C_COMPILER_TARGET="x86_64-windows-gnu" \
-            -DCMAKE_CXX_COMPILER_TARGET="x86_64-windows-gnu" \
-            -DCMAKE_AR="$PWD/zig-ar" \
-            -DCMAKE_RANLIB="$PWD/zig-ranlib"
-    else
+    (
+        set -x
         cmake -B build/windows \
             -DCMAKE_SYSTEM_NAME="Windows" \
             -DCMAKE_SYSTEM_PROCESSOR="x86_64" \
             -DCMAKE_ASM_COMPILER_TARGET="x86_64-windows-gnu" \
             -DCMAKE_C_COMPILER_TARGET="x86_64-windows-gnu" \
-            -DCMAKE_CXX_COMPILER_TARGET="x86_64-windows-gnu"
-    fi
+            -DCMAKE_CXX_COMPILER_TARGET="x86_64-windows-gnu" \
+            "${cmake_opts[@]}"
+    )
     ;;
 
 web)
@@ -81,6 +83,7 @@ web)
     (
         mkdir -p build/web
         cd build/web
+        set -x
         emcmake cmake ../.. -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXECUTABLE_SUFFIX=".html"
     )
     ;;
