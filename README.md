@@ -1,6 +1,10 @@
-# raylib CMake Project
+# raylib-starter
 
-This provides a base project template which builds with [CMake](https://cmake.org).
+A starter project for C Raylib with optional support for Nix.
+
+[Web Demo](https://krscott.github.io/raylib-starter/raylib-starter.html)
+
+![build](https://github.com/krscott/raylib-starter/actions/workflows/build.yml/badge.svg)
 
 ## Usage
 
