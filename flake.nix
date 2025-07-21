@@ -20,19 +20,16 @@
       "x86_64-darwin"
       "aarch64-darwin"
     ];
+
+    # CMakeLists.txt project name
+    appName = "game";
   in
     flake-utils.lib.eachSystem supportedSystems (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
 
-        runWebserver = pkgs.writeShellScriptBin "webserver" ''
-          cd "${self.packages.${system}.web}/share"
-          ${pkgs.lib.getExe pkgs.python3} -m http.server
-        '';
-
         pkgArgs = {
-          inherit raylib-src;
-          appName = "game";
+          inherit appName raylib-src;
         };
       in {
         packages = {
@@ -40,10 +37,14 @@
           desktop = pkgs.callPackage ./pkgs/desktop.nix pkgArgs;
           windows = pkgs.callPackage ./pkgs/windows.nix pkgArgs;
           web = pkgs.callPackage ./pkgs/web.nix pkgArgs;
+          webserver = pkgs.writeShellScriptBin "webserver" ''
+            cd "${self.packages.${system}.web}/share/${appName}-web"
+            ${pkgs.lib.getExe pkgs.python3} -m http.server
+          '';
         };
 
         apps = {
-          web = flake-utils.lib.mkApp {drv = runWebserver;};
+          web = flake-utils.lib.mkApp {drv = self.packages.${system}.webserver;};
         };
 
         devShells = {

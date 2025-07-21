@@ -7,7 +7,7 @@
 callPackage ./base.nix rec {
   platform = "web";
 
-  inherit raylib-src;
+  inherit appName raylib-src;
 
   nativeBuildInputs = [
     emscripten
@@ -22,7 +22,7 @@ callPackage ./base.nix rec {
   '';
 
   installPhase = ''
-    mkdir -p $out/share
-    mv build/${platform}/src/${appName}* $out/share/
+    mkdir -p $out/share/${appName}-${platform}
+    mv build/${platform}/src/${appName}* $out/share/${appName}-${platform}
   '';
 }

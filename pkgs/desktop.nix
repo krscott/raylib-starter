@@ -9,7 +9,7 @@ callPackage ./base.nix {
   platform = "desktop";
   mainProgram = appName;
 
-  inherit raylib-src;
+  inherit appName raylib-src;
 
   nativeBuildInputs = [
     libGL

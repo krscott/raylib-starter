@@ -10,7 +10,7 @@ callPackage ./base.nix {
   platform = "windows";
   mainProgram = "${appName}.exe";
 
-  inherit raylib-src;
+  inherit appName raylib-src;
 
   configurePhase = ''
     cmake -B build/windows \

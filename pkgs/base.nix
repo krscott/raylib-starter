@@ -1,4 +1,5 @@
 {
+  appName,
   mainProgram ? null,
   platform,
   nativeBuildInputs ? [],
@@ -11,7 +12,7 @@
   cmake,
 }:
 stdenv.mkDerivation {
-  name = "raylib-starter-${platform}";
+  name = "${appName}-${platform}";
   src = lib.cleanSource ./..;
 
   nativeBuildInputs =
