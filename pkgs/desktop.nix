@@ -1,4 +1,5 @@
 {
+  useZig ? false,
   appName,
   raylib-src,
   callPackage,
@@ -9,7 +10,7 @@ callPackage ./base.nix {
   platform = "desktop";
   mainProgram = appName;
 
-  inherit appName raylib-src;
+  inherit appName raylib-src useZig;
 
   nativeBuildInputs = [
     libGL

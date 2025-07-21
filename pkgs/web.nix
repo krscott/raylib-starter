@@ -1,4 +1,5 @@
 {
+  useZig ? false,
   appName,
   raylib-src,
   callPackage,
@@ -7,7 +8,7 @@
 callPackage ./base.nix rec {
   platform = "web";
 
-  inherit appName raylib-src;
+  inherit appName raylib-src useZig;
 
   nativeBuildInputs = [
     emscripten

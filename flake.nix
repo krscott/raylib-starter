@@ -30,6 +30,7 @@
 
         pkgArgs = {
           inherit appName raylib-src;
+          # useZig = true;
         };
 
         inherit (self.packages.${system}) desktop web webserver;

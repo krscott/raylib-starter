@@ -1,4 +1,5 @@
 {
+  useZig ? false,
   appName,
   raylib-src,
   callPackage,
@@ -10,5 +11,5 @@ callPackage ./base.nix {
   platform = "windows";
   mainProgram = "${appName}.exe";
 
-  inherit appName raylib-src;
+  inherit appName raylib-src useZig;
 }

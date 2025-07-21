@@ -1,4 +1,5 @@
 {
+  useZig ? false,
   appName,
   mainProgram ? null,
   platform,
@@ -10,11 +11,17 @@
   stdenv,
   lib,
   cmake,
+  zig,
 }: let
   withDefault = default: val:
     if val != null
     then val
     else default;
+
+  useZigOpt =
+    if useZig
+    then "--zig"
+    else "";
 in
   stdenv.mkDerivation {
     name = "${appName}-${platform}";
@@ -24,7 +31,14 @@ in
       [
         cmake
       ]
+      ++ (
+        if useZig
+        then [zig]
+        else []
+      )
       ++ nativeBuildInputs;
+
+    ZIG_GLOBAL_CACHE_DIR = "/build/zig-cache";
 
     installRaylibPhase = ''
       ln -s ${raylib-src} lib/raylib
@@ -41,7 +55,7 @@ in
 
     configurePhase =
       withDefault ''
-        ./configure.sh ${platform}
+        ./configure.sh ${platform} ${useZigOpt}
       ''
       configurePhase;
 
