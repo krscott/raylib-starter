@@ -9,25 +9,31 @@ usage() {
     echo "$0 [PLATFORM]"
 }
 
+build() {
+    ./build.sh "$platform"
+}
+
 case "$platform" in
-desktop)
-    (
-        cd build/desktop/src
-        ./raylib-starter
-    )
-    ;;
-windows | win)
-    echo "Cannot run windows build from linux"
-    exit 1
-    ;;
-web)
-    (
-        cd build/web/src
-        python -m http.server
-    )
-    ;;
-*)
-    usage
-    exit 1
-    ;;
+    desktop)
+        (
+            build
+            cd build/desktop/src
+            ./raylib-starter
+        )
+        ;;
+    windows | win)
+        echo "Cannot run windows build from linux"
+        exit 1
+        ;;
+    web)
+        (
+            build
+            cd build/web/src
+            python -m http.server
+        )
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
 esac

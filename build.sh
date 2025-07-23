@@ -9,38 +9,50 @@ usage() {
     echo "$0 [PLATFORM]"
 }
 
+configure_if_needed() {
+    if ! [[ -d build/$1 ]]; then
+        ./configure.sh "$@"
+    fi
+}
+
 case "$platform" in
-desktop)
-    (
-        set -x
-        cmake --build build/desktop
-    )
-    ;;
+    desktop)
+        (
+            configure_if_needed desktop
 
-windows | win)
-    (
-        set -x
-        cmake --build build/windows
-    )
-    ;;
+            set -x
+            cmake --build build/desktop
+        )
+        ;;
 
-web)
-    # NOTE: To fix missing libatomic.so.1, install libatomic1
-    # Or, on nix, copy from binaryen. e.g.
-    #   cp /nix/store/dj557yw8nrfl5v4yfl3v7y4cpfmgcahp-binaryen-123/bin/* emsdk/upstream/bin/
-    # see: https://github.com/emscripten-core/emsdk/issues/928
+    windows | win)
+        (
+            configure_if_needed windows -z
 
-    # ./emsdk/emsdk activate latest
-    # . ./emsdk/emsdk_env.sh
-    (
-        cd build/web
-        set -x
-        emmake make
-    )
-    ;;
+            set -x
+            cmake --build build/windows
+        )
+        ;;
 
-*)
-    usage
-    exit 1
-    ;;
+    web)
+        # NOTE: To fix missing libatomic.so.1, install libatomic1
+        # Or, on nix, copy from binaryen. e.g.
+        #   cp /nix/store/dj557yw8nrfl5v4yfl3v7y4cpfmgcahp-binaryen-123/bin/* emsdk/upstream/bin/
+        # see: https://github.com/emscripten-core/emsdk/issues/928
+
+        # ./emsdk/emsdk activate latest
+        # . ./emsdk/emsdk_env.sh
+        (
+            configure_if_needed web
+
+            cd build/web
+            set -x
+            emmake make
+        )
+        ;;
+
+    *)
+        usage
+        exit 1
+        ;;
 esac
