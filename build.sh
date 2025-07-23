@@ -48,6 +48,7 @@ case "$platform" in
             cd build/web
             set -x
             emmake make
+            mv src/*.html src/index.html
         )
         ;;
 

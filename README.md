@@ -2,7 +2,7 @@
 
 A starter project for C Raylib with optional support for Nix.
 
-[Web Demo](https://krscott.github.io/raylib-starter/raylib-starter.html)
+[Web Demo](https://krscott.github.io/raylib-starter/)
 
 ![build](https://github.com/krscott/raylib-starter/actions/workflows/build.yml/badge.svg)
 

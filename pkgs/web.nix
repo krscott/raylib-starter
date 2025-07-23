@@ -16,6 +16,9 @@ callPackage ./base.nix rec {
 
   installPhase = ''
     mkdir -p $out/share/www
-    mv build/${platform}/src/${appName}* $out/share/www
+    (
+      cd build/${platform}/src/
+      mv *.html *.js *.wasm $out/share/www
+    )
   '';
 }
